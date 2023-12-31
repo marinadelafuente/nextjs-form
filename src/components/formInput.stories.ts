@@ -14,7 +14,7 @@ const meta = {
       },
     },
   },
-  decorators: [StorybookFormProvider(false)],
+  decorators: [StorybookFormProvider()],
 } satisfies Meta<typeof Page>;
 
 export default meta;

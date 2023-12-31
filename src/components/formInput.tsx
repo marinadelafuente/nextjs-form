@@ -6,7 +6,7 @@ import { TextField, InputAdornment } from "@mui/material";
 // Types
 import type { FormProps } from "@/types/formTypes";
 
-export default function FormInput({ name, label, helperText, control, isError, rules, placeholder, isTypeNumber = false, isMultiline = false, maxRows }: FormProps) {
+export default function FormInput({ name, label, control, isError, rules, placeholder, isTypeNumber = false, isMultiline = false, maxRows }: FormProps) {
   return (
     <Controller
       control={control}

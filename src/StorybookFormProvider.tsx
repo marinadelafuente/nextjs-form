@@ -13,11 +13,12 @@ const StorybookFormProvider: FC<{ children: ReactNode }> = ({ children }) => {
   );
 };
 
-export default (showSubmitButton: boolean) =>
-  (Story: FC): ReturnType<StoryFn<ReactElement>> =>
-    (
+export default function formDec() {
+  return function Form(Story: FC): ReturnType<StoryFn<ReactElement>> {
+    return (
       <StorybookFormProvider>
         <Story />
-        {showSubmitButton && <button type="submit">Submit</button>}
       </StorybookFormProvider>
     );
+  };
+}
