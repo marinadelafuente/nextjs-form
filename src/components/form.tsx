@@ -83,7 +83,7 @@ export default function Form() {
     <>
       <Box component="form" onSubmit={handleSubmit(onSubmit)} autoComplete="on" sx={{ height: "100%", maxHeight: "100%", display: "flex", flexDirection: "column", gap: "10px", color: "#1D1D20" }}>
         <Paper elevation={1} square={false} sx={{ p: 2, mb: "0.62rem" }}>
-          <Typography variant="h5" component="h1" sx={{ fontFamily: "roboto" }}>
+          <Typography variant="h5" component="h1" sx={{ fontFamily: "Roboto" }}>
             Form title
           </Typography>
           <Typography variant="body2" component="h2">

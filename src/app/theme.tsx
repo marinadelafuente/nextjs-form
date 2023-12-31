@@ -16,9 +16,6 @@ const poppinsFont = Poppins({
 
 export const customTheme = createTheme({
   typography: {
-    fontFamily: {
-      poppins: poppinsFont.style.fontFamily,
-      roboto: robotoFont.style.fontFamily,
-    },
+    fontFamily: [poppinsFont.style.fontFamily, robotoFont.style.fontFamily].join(),
   },
 });
