@@ -6,7 +6,7 @@ import { TextField, InputAdornment } from "@mui/material";
 // Types
 import type { FormProps } from "@/types/formTypes";
 
-export default function FormInput({ name, label, control, isError, rules, placeholder, isTypeNumber = false, isMultiline = false, maxRows }: FormProps) {
+export default function FormInput({ name, label, control, rules, placeholder, isTypeNumber = false, isMultiline = false, maxRows, helperText }: FormProps) {
   return (
     <Controller
       control={control}
@@ -19,6 +19,7 @@ export default function FormInput({ name, label, control, isError, rules, placeh
             {...field}
             fullWidth
             multiline={isMultiline ? true : false}
+            className={isMultiline ? "textarea" : ""}
             {...(maxRows && { maxRows })}
             {...(placeholder && { placeholder })}
             type={isTypeNumber ? "number" : "text"}
@@ -34,8 +35,8 @@ export default function FormInput({ name, label, control, isError, rules, placeh
               },
             ]}
             label={label}
-            error={isError}
-            helperText={error?.message}
+            error={!!error}
+            helperText={helperText ?? error?.message}
             InputProps={{
               startAdornment: <InputAdornment position="end" sx={{ display: "none" }}></InputAdornment>,
             }}

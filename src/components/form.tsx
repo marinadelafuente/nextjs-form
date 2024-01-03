@@ -59,7 +59,6 @@ export default function Form() {
   });
 
   // Disable the submit button until the required fields are filled
-  const { isValid } = useFormState({ control });
 
   const onSubmit: SubmitHandler<FormInputs> = async (data) => {
     try {
@@ -83,7 +82,7 @@ export default function Form() {
     <>
       <Box component="form" onSubmit={handleSubmit(onSubmit)} autoComplete="on" sx={{ height: "100%", maxHeight: "100%", display: "flex", flexDirection: "column", gap: "10px", color: "#1D1D20" }}>
         <Paper elevation={1} square={false} sx={{ p: 2, mb: "0.62rem" }}>
-          <Typography variant="h5" component="h1" sx={{ fontFamily: "Roboto" }}>
+          <Typography variant="h5" component="h1" sx={{ fontFamily: "__Roboto_a789c4", mb: "1" }}>
             Form title
           </Typography>
           <Typography variant="body2" component="h2">
@@ -94,31 +93,13 @@ export default function Form() {
           <Typography variant="body1" component="h3" sx={{ pb: 3 }}>
             Personal details
           </Typography>
-          <FormInput
-            label="First name"
-            name="name"
-            helperText={errors.name && `${errors.name.message}`}
-            isError={!!errors.name}
-            control={control}
-            rules={{ required: true, maxLength: 50 }}
-            placeholder="First name"
-          />
-          <FormInput label="Middle name" name="middleName" helperText="Optional" isError={!!errors.middleName} control={control} placeholder="Middle name" />
-          <FormInput
-            label="Last name"
-            name="lastName"
-            helperText={errors.lastName && `${errors.lastName.message}`}
-            isError={!!errors.lastName}
-            control={control}
-            rules={{ required: true }}
-            placeholder="Last name"
-          />
+          <FormInput label="First name" name="name" control={control} rules={{ required: true, maxLength: 50 }} placeholder="First name" />
+          <FormInput label="Middle name" name="middleName" helperText="Optional" control={control} placeholder="Middle name" />
+          <FormInput label="Last name" name="lastName" control={control} rules={{ required: true }} placeholder="Last name" />
           <Divider sx={{ mb: 3 }} />
           <FormInput
             label="Email"
             name="email"
-            helperText={errors.email && `${errors.email.message}`}
-            isError={!!errors.email}
             control={control}
             rules={{
               required: true,
@@ -129,16 +110,7 @@ export default function Form() {
             }}
             placeholder="email@email.com"
           />
-          <FormInput
-            label="Age"
-            name="age"
-            helperText={errors.age && `${errors.age.message}`}
-            isError={!!errors.age}
-            control={control}
-            rules={{ required: true, min: 18, max: 100 }}
-            isTypeNumber
-            placeholder="Enter a number"
-          />
+          <FormInput label="Age" name="age" control={control} rules={{ required: true, min: 18, max: 100 }} isTypeNumber placeholder="Enter a number" />
         </Paper>
         <Paper elevation={1} square={false} sx={{ p: 2 }}>
           <FormControl>
@@ -161,7 +133,7 @@ export default function Form() {
               <Typography variant="body2" component="h3" sx={{ py: 3 }}>
                 Please provide the name(s) of what you are studying {studies}
               </Typography>
-              <FormInput label="Study details" name="studyDetails" isError={!!errors.studyDetails} control={control} placeholder="Detail your study here" maxRows={10} isMultiline />
+              <FormInput label="Study details" name="studyDetails" control={control} placeholder="Detail your study here" maxRows={10} isMultiline />
             </>
           )}
         </Paper>
@@ -169,7 +141,7 @@ export default function Form() {
           <Typography variant="body1" component="h3" sx={{ pb: 2 }}>
             Extra information?
           </Typography>
-          <FormInput label="Extra information" name="extraInfo" isError={!!errors.extraInfo} control={control} placeholder="Enter any additional information here" maxRows={10} isMultiline />
+          <FormInput label="Extra information" name="extraInfo" control={control} placeholder="Enter any additional information here" maxRows={10} isMultiline />
         </Paper>
         <Paper elevation={1} square={false} sx={{ p: 2 }}>
           <Typography variant="body1" component="h3" sx={{ pb: 2 }}>
@@ -188,7 +160,6 @@ export default function Form() {
               Cancel
             </Button>
             <LoadingButton
-              disabled={!isValid}
               loading={isSubmitting && !showErrorMessage}
               variant="contained"
               type="submit"

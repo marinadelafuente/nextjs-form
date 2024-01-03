@@ -14,7 +14,6 @@ export type FormProps = {
   label: string;
   helperText?: string;
   control: any;
-  isError: boolean;
   rules?: { required?: boolean; maxLength?: number; min?: number; max?: number; pattern?: any };
   placeholder?: string;
   isTypeNumber?: boolean;

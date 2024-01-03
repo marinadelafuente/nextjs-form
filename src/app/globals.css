@@ -36,3 +36,8 @@ a {
   color: inherit;
   text-decoration: none;
 }
+
+.textarea > div {
+  min-height: 14rem;
+  align-items: flex-start;
+}
