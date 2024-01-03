@@ -1,11 +1,11 @@
 "use client";
 import { useState } from "react";
-import { Controller, SubmitHandler, useForm, useFormState } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 
 // Components
 import { Alert, Box, Button, Divider, FormControl, FormControlLabel, FormLabel, InputAdornment, Paper, Radio, RadioGroup, TextField, Typography } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
-import FormInput from "./formInput";
+import FormInput from "../formInput/formInput";
 
 // Types
 import type { FormInputs } from "@/types/formTypes";
@@ -57,8 +57,6 @@ export default function Form() {
     reValidateMode: "onChange",
     resolver: yupResolver(schema),
   });
-
-  // Disable the submit button until the required fields are filled
 
   const onSubmit: SubmitHandler<FormInputs> = async (data) => {
     try {

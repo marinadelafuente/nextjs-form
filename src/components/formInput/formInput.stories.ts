@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
 import Page from "./formInput";
-import StorybookFormProvider from "../StorybookFormProvider";
+import StorybookFormProvider from "../../StorybookFormProvider";
 
 const meta = {
   title: "Form",
@@ -24,6 +24,5 @@ export const FormInput: Story = {
   args: {
     name: "name",
     label: "First name",
-    isError: false,
   },
 };

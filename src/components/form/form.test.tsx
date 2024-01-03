@@ -1,4 +1,5 @@
 import { render, screen, waitFor } from "@testing-library/react";
+global.fetch = jest.fn();
 import "@testing-library/jest-dom";
 import userEvent from "@testing-library/user-event";
 
@@ -8,6 +9,9 @@ import * as stories from "./form.stories";
 const { FormStory } = composeStories(stories);
 
 describe("Form component", () => {
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
   test("All the inputs should appear on the dom except 'Study Details'", async () => {
     render(<FormStory />);
     expect(screen.getByRole("heading", { name: "Form title" })).toBeInTheDocument();
@@ -21,8 +25,42 @@ describe("Form component", () => {
     expect(screen.getByLabelText("Extra information")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Submit" })).toBeInTheDocument();
   });
+  test("The form should not be submitted if the is an error in age and email fields", async () => {
+    render(<FormStory />);
+
+    const spy = jest.spyOn(globalThis, "fetch");
+    const user = userEvent.setup();
+
+    const firstName = screen.getByLabelText("First name");
+    await user.click(firstName);
+    await user.type(firstName, "Marina");
+
+    const lastName = screen.getByLabelText("Last name");
+    await user.click(lastName);
+    await user.type(lastName, "de la Fuente");
+
+    const email = screen.getByLabelText("Email");
+    await user.click(email);
+    await user.type(email, "fff.com");
+
+    const age = screen.getByLabelText("Age");
+    await user.click(age);
+    await user.type(age, "2");
+
+    const submitButton = screen.getByRole("button", { name: "Submit" });
+    await submitButton.click();
+    await expect(spy).not.toHaveBeenCalled();
+  });
+  test("The form should not be submitted if the required fields are empty", async () => {
+    render(<FormStory />);
+    const spy = jest.spyOn(globalThis, "fetch");
+    const submitButton = screen.getByRole("button", { name: "Submit" });
+    await submitButton.click();
+    await expect(spy).not.toHaveBeenCalled();
+  });
   test("After all the required fields are filled, the form should submit and a success message appear", async () => {
     render(<FormStory />);
+    const spy = jest.spyOn(globalThis, "fetch");
     const user = userEvent.setup();
 
     const firstName = screen.getByLabelText("First name");
@@ -57,9 +95,8 @@ describe("Form component", () => {
     await user.type(info, "Extra Info");
 
     const submitButton = screen.getByRole("button", { name: "Submit" });
-    expect(submitButton).not.toBeDisabled();
     await user.click(submitButton);
-
+    await expect(spy).toHaveBeenCalled();
     await waitFor(
       () => {
         const alert = screen.getByText("Form succesfully sent");
@@ -68,14 +105,7 @@ describe("Form component", () => {
       { timeout: 1000 }
     );
   });
-
-  test("The submit button should be disabled if the required fields are empty", async () => {
-    render(<FormStory />);
-    const submitButton = screen.getByRole("button", { name: "Submit" });
-    expect(submitButton).toBeDisabled();
-  });
-
-  test("The submit button should be disabled if the is an error in age and email the fields", async () => {
+  test("The form to be resetted when the Cancel button is clicked", async () => {
     render(<FormStory />);
     const user = userEvent.setup();
     const firstName = screen.getByLabelText("First name");
@@ -94,35 +124,12 @@ describe("Form component", () => {
     await user.click(age);
     await user.type(age, "2");
 
-    const submitButton = screen.getByRole("button", { name: "Submit" });
-    expect(submitButton).toBeDisabled();
+    const cancelButton = screen.getByRole("button", { name: "Cancel" });
+    await user.click(cancelButton);
+
+    expect(firstName).toHaveValue("");
+    expect(lastName).toHaveValue("");
+    expect(email).toHaveValue("");
+    expect(age).toHaveValue(0);
   });
-});
-
-test("The form to be resetted when the Cancel button is clicked", async () => {
-  render(<FormStory />);
-  const user = userEvent.setup();
-  const firstName = screen.getByLabelText("First name");
-  await user.click(firstName);
-  await user.type(firstName, "Marina");
-
-  const lastName = screen.getByLabelText("Last name");
-  await user.click(lastName);
-  await user.type(lastName, "de la Fuente");
-
-  const email = screen.getByLabelText("Email");
-  await user.click(email);
-  await user.type(email, "fff.com");
-
-  const age = screen.getByLabelText("Age");
-  await user.click(age);
-  await user.type(age, "2");
-
-  const cancelButton = screen.getByRole("button", { name: "Cancel" });
-  await user.click(cancelButton);
-
-  expect(firstName).toHaveValue("");
-  expect(lastName).toHaveValue("");
-  expect(email).toHaveValue("");
-  expect(age).toHaveValue(0);
 });
